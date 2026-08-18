@@ -256,8 +256,8 @@ func (s *Service) Report(ctx context.Context, req ReportRequest) error {
 // making them available for re-assignment. This implements the preemption
 // and re-distribution business rule.
 func (s *Service) PreemptExpiredClaims(ctx context.Context) ([]*PreemptResult, error) {
-	cutoff := s.clock.Now().Add(-s.leaseTimeout)
-	nowStr := cutoff.Format("2006-01-02T15:04:05Z07:00")
+	now := s.clock.Now()
+	nowStr := now.Format("2006-01-02T15:04:05Z07:00")
 	if ctx.Err() != nil {
 		return nil, ctx.Err()
 	}
