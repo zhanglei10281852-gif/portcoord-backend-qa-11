@@ -150,8 +150,7 @@ func (s *SQLiteStore) ListExpiredClaims(ctx context.Context, now string) ([]*dom
 	rows, err := ex.Query(`SELECT id, declaration_id, berthing_window_id, task_type, location, assigned_to,
 		claimed_by, claim_expires_at, lease_id, status, priority, report_data, version, created_at, updated_at
 		FROM pilot_tug_tasks WHERE claim_expires_at IS NOT NULL AND claim_expires_at < ?
-		AND status IN ('in_progress')
-		AND claimed_by != '' ORDER BY claim_expires_at ASC`, now)
+		AND status IN ('claimed', 'in_progress') ORDER BY claim_expires_at ASC`, now)
 	if err != nil {
 		return nil, fmt.Errorf("list expired claims: %w", err)
 	}
